@@ -17,17 +17,17 @@ RESET="\033[0m"
 
 # ADJUST SETTINGS HERE
 
-USER_COLOR=$BLUE
-ROOT_COLOR=$RED
-HOST_COLOR=$BLUE
+BASHPROMPT_USER_COLOR=$BLUE
+BASHPROMPT_ROOT_COLOR=$RED
+BASHPROMPT_HOST_COLOR=$BLUE
 
 
 
 function user_color {
     if [ "$(id -u)" != "0" ]; then
-        echo -e $USER_COLOR   # normal user
+        echo -e $BASHPROMPT_USER_COLOR   # normal user
     else
-        echo -e $ROOT_COLOR   # root user
+        echo -e $BASHPROMPT_ROOT_COLOR   # root user
     fi
 }
 
@@ -85,7 +85,7 @@ PS1="(\${timer_show}s)"         # run time of last command
 PS1+=" "
 PS1+="\[\$(user_color)\]\u"     # prints username in color configured above
 PS1+="\[$RESET\]@"
-PS1+="\[$HOST_COLOR\]\H"        # prints hostname in color configured above
+PS1+="\[$BASHPROMPT_HOST_COLOR\]\H"        # prints hostname in color configured above
 PS1+="\[$RESET\]"
 PS1+=" "
 PS1+="\[\$(git_color)\]"        # colors git status
@@ -96,11 +96,6 @@ PS1+="\w "                      # working dir
 PS1+="\\$ "                     # '#' for root, '$' for normal user
 
 export PS1
-
-unset USER_COLOR
-unset ROOT_COLOR
-unset HOST_COLOR
-
 
 # PS1='(${timer_show}s)\[\e[1;34m\]\u\[\e[0m\]@\[\e[1;34m\]\H\[\e[0m\] \[\e[1;36m\]($(parse_git_branch))\[\e[0m\] \w \$ '
 
