@@ -22,6 +22,37 @@ BASHPROMPT_ROOT_COLOR=$RED
 BASHPROMPT_HOST_COLOR=$BLUE
 
 
+function format_time {
+    # formats the time as 1h, 2m, 3s
+    # hour and minute will be omitted
+    # respectively, if they are equal
+    # to zero
+
+    # use value from jakemccrary's
+    # timer_stop function
+    sec=$timer_show
+    min=0
+    hour=0
+    if [[ $sec -ge 60 ]]; then
+	min=$(( $sec / 60 ))
+	sec=$(( $sec % 60 ))
+    fi
+    if [[ $min -ge 60 ]]; then
+	hour=$(( $min / 60 ))
+	min=$(( $min % 60 ))
+    fi
+
+    
+    if [[ $hour -gt 0 ]]; then
+	printf "%dh, " $hour
+    fi
+
+    if [[ $min -gt 0 ]]; then	
+	printf "%dm, " $min
+    fi
+
+    printf "%ds" $sec
+}
 
 function user_color {
     if [ "$(id -u)" != "0" ]; then
@@ -81,7 +112,7 @@ fi
 
 # combining the prompt
 
-PS1="(\${timer_show}s)"         # run time of last command
+PS1="(\$(format_time))"         # run time of last command
 PS1+=" "
 PS1+="\[\$(user_color)\]\u"     # prints username in color configured above
 PS1+="\[$RESET\]@"
