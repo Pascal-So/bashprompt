@@ -23,7 +23,13 @@ BASHPROMPT_ROOT_COLOR=$RED
 BASHPROMPT_HOST_COLOR=$BLUE
 
 
-function format_time {
+function print_current_time {
+    # prints the current time in the
+    # format 14:30
+    date "+%H:%M"
+}
+
+function format_runtime {
     # formats the time as 1h, 2m, 3s
     # hour and minute will be omitted
     # respectively, if they are equal
@@ -113,7 +119,9 @@ fi
 
 # combining the prompt
 
-PS1="(\$(format_time))"         # run time of last command
+PS1="(\$(format_runtime))"         # run time of last command
+PS1+=" "
+PS1+="(\$(print_current_time))"
 PS1+=" "
 PS1+="\[\$(user_color)\]\u"     # prints username in color configured above
 PS1+="\[$RESET\]@"
