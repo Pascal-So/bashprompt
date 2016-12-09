@@ -116,11 +116,19 @@ else
   PROMPT_COMMAND="$PROMPT_COMMAND; timer_stop"
 fi
 
+# switch to red if last command exited with non-zero status
+function get_exit_status_color {
+    if [ $? -ne 0 ]; then
+	echo -e $RED
+    fi
+}
 
 # combining the prompt
 
-PS1="(\$(format_runtime))"         # run time of last command
-PS1+=" "
+PS1=""
+PS1+="\[\$(get_exit_status_color)\]"
+PS1+="(\$(format_runtime))"         # run time of last command
+PS1+="\[$RESET\] "
 PS1+="(\$(print_current_time))"
 PS1+=" "
 PS1+="\[\$(user_color)\]\u"     # prints username in color configured above
