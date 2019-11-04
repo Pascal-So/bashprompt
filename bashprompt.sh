@@ -40,22 +40,23 @@ function format_runtime {
     sec=$timer_show
     min=0
     hour=0
+
     if [[ $sec -ge 60 ]]; then
-	min=$(( $sec / 60 ))
-	sec=$(( $sec % 60 ))
+        min=$(( $sec / 60 ))
+        sec=$(( $sec % 60 ))
     fi
+
     if [[ $min -ge 60 ]]; then
-	hour=$(( $min / 60 ))
-	min=$(( $min % 60 ))
+        hour=$(( $min / 60 ))
+        min=$(( $min % 60 ))
     fi
 
-    
     if [[ $hour -gt 0 ]]; then
-	printf "%dh, " $hour
+        printf "%dh, " $hour
     fi
 
-    if [[ $min -gt 0 ]]; then	
-	printf "%dm, " $min
+    if [[ $min -gt 0 ]]; then
+        printf "%dm, " $min
     fi
 
     printf "%ds" $sec
@@ -88,7 +89,7 @@ function git_branch {
         local git_status="$(git status 2> /dev/null)"
         local on_branch="On branch ([^${IFS}]*)"
         local on_commit="HEAD detached at ([^${IFS}]*)"
-        
+
         if [[ $git_status =~ $on_branch ]]; then
             local branch=${BASH_REMATCH[1]}
             echo "($branch)"
@@ -106,22 +107,22 @@ function timer_start {
 }
 
 function timer_stop {
-  timer_show=$(($SECONDS - $timer))
-  unset timer
+    timer_show=$(($SECONDS - $timer))
+    unset timer
 }
 
 trap 'timer_start' DEBUG
 
 if [ "$PROMPT_COMMAND" == "" ]; then
-  PROMPT_COMMAND="timer_stop"
+    PROMPT_COMMAND="timer_stop"
 else
-  PROMPT_COMMAND="$PROMPT_COMMAND; timer_stop"
+    PROMPT_COMMAND="$PROMPT_COMMAND; timer_stop"
 fi
 
 # switch to red if last command exited with non-zero status
 function get_exit_status_color {
     if [ $? -ne 0 ]; then
-	echo -e $RED
+        echo -e $RED
     fi
 }
 
@@ -148,4 +149,3 @@ PS1+="\\$ "                     # '#' for root, '$' for normal user
 export PS1
 
 # PS1='(${timer_show}s)\[\e[1;34m\]\u\[\e[0m\]@\[\e[1;34m\]\H\[\e[0m\] \[\e[1;36m\]($(parse_git_branch))\[\e[0m\] \w \$ '
-
