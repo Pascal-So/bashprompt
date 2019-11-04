@@ -22,6 +22,7 @@ BASHPROMPT_USER_COLOR=$BLUE
 BASHPROMPT_ROOT_COLOR=$RED
 BASHPROMPT_HOST_COLOR=$BLUE
 
+SHOW_GIT_BRANCH=true
 
 function print_current_time {
     # prints the current time in the
@@ -139,10 +140,14 @@ PS1+="\[$RESET\]@"
 PS1+="\[$BASHPROMPT_HOST_COLOR\]\H"        # prints hostname in color configured above
 PS1+="\[$RESET\]"
 PS1+=" "
-PS1+="\[\$(git_color)\]"        # colors git status
-PS1+="\$(git_branch)"           # prints current branch
-PS1+="\[$RESET\]"
-PS1+=" "
+
+if [[ "$SHOW_GIT_BRANCH" == true ]]; then
+    PS1+="\[\$(git_color)\]"        # colors git status
+    PS1+="\$(git_branch)"           # prints current branch
+    PS1+="\[$RESET\]"
+    PS1+=" "
+fi
+
 PS1+="\w "                      # working dir
 PS1+="\\$ "                     # '#' for root, '$' for normal user
 
